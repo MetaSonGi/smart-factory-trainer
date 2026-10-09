@@ -59,16 +59,18 @@
   /* ---------- 장비 조작 버튼 ---------- */
   const btnPower = $('btnPower'), btnConv = $('btnConveyor'),
         btnRobot = $('btnRobot'), btnInsp = $('btnInspect');
+  btnPower.disabled = true; // 3D 모듈 로드 전까지 비활성화 (첫 클릭 타이밍 이슈 방지)
   function markOn(btn) { btn.classList.add('on'); btn.disabled = true; }
-  btnPower.addEventListener('click', () => { F().powerOn(); markOn(btnPower); btnConv.disabled = false; });
-  btnConv.addEventListener('click', () => { F().conveyorStart(); markOn(btnConv); btnRobot.disabled = false; });
-  btnRobot.addEventListener('click', () => { F().robotStart(); markOn(btnRobot); btnInsp.disabled = false; });
-  btnInsp.addEventListener('click', () => { F().inspectStart(); markOn(btnInsp); });
+  btnPower.addEventListener('click', () => { F().powerOn(); markOn(btnPower); btnConv.disabled = false; checkStepProgress(); });
+  btnConv.addEventListener('click', () => { F().conveyorStart(); markOn(btnConv); btnRobot.disabled = false; checkStepProgress(); });
+  btnRobot.addEventListener('click', () => { F().robotStart(); markOn(btnRobot); btnInsp.disabled = false; checkStepProgress(); });
+  btnInsp.addEventListener('click', () => { F().inspectStart(); F().inspectTarget = 8; markOn(btnInsp); checkStepProgress(); });
 
   /* ---------- 팩토리 이벤트 구독 ---------- */
   const waitFactory = setInterval(() => {
     if (!window.__factory || !window.__factory.powerOn) return;
     clearInterval(waitFactory);
+    btnPower.disabled = false;
     F().onEvent = (type) => {
       if (['fed', 'moved', 'inspected'].includes(type)) updateDash();
       checkStepProgress();

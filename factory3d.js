@@ -5,7 +5,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const F = {
   power: false, conveyorOn: false, robotOn: false, inspectOn: false,
   count: 0, moved: 0, inspected: 0, good: 0, bad: 0,
-  results: [], armPhase: 0, inspTimer: 0, lampTimer: 0,
+  results: [], armPhase: 0, inspTimer: 0, lampTimer: 0, inspectTarget: Infinity,
 };
 window.__factory = F;
 F.onEvent = null;
@@ -141,7 +141,7 @@ F.robotStart = () => { if (!F.power || F.robotOn) return; F.robotOn = true; emit
 F.inspectStart = () => { if (!F.power || F.inspectOn) return; F.inspectOn = true; emit('inspect'); };
 F.reset = () => {
   Object.assign(F, { power: false, conveyorOn: false, robotOn: false, inspectOn: false,
-    count: 0, moved: 0, inspected: 0, good: 0, bad: 0, results: [], inspTimer: 0 });
+    count: 0, moved: 0, inspected: 0, good: 0, bad: 0, results: [], inspTimer: 0, inspectTarget: Infinity });
   products.forEach((p, i) => { p.position.set(-9 + i * 2.6, 1.9, -2.5); p.visible = true;
     p.material.color.setHex(0x00d4aa); });
   binItems.forEach((b) => scene.remove(b)); binItems.length = 0;
@@ -179,7 +179,7 @@ function step(dt) {
       F.moved++; emit('moved', { moved: F.moved });
     }
   }
-  if (F.power && F.inspectOn) {
+  if (F.power && F.inspectOn && F.inspected < F.inspectTarget) {
     F.inspTimer += dt;
     camEye.material.emissive.setHex(0xaa0000 + Math.floor(Date.now() / 200) % 2 * 0x440000);
     if (F.inspTimer > 1.6) {
