@@ -47,9 +47,11 @@
   }
 
   function checkStepProgress() {
-    if (finished) return;
+    if (finished || !window.__factory) return;
     const cur = LESSON.steps[stepIdx];
-    if (!cur || cur.manual || !cur.needCount) return;
+    if (!cur || cur.manual) return;
+    if (cur.id === 'power') { if (F().power) completeStep(); return; }
+    if (!cur.needCount) return;
     const key = counters[cur.id];
     if (key && F()[key] >= cur.needCount) completeStep();
   }
@@ -68,7 +70,8 @@
     if (!window.__factory || !window.__factory.powerOn) return;
     clearInterval(waitFactory);
     F().onEvent = (type) => {
-      if (['fed', 'moved', 'inspected'].includes(type)) { updateDash(); checkStepProgress(); }
+      if (['fed', 'moved', 'inspected'].includes(type)) updateDash();
+      checkStepProgress();
     };
   }, 200);
 
@@ -107,7 +110,7 @@
       dctx.stroke();
     });
   }
-  updateDash();
+  if (window.__factory) updateDash();
 
   /* ---------- 평가 ---------- */
   function startQuiz() {
