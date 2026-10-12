@@ -1,10 +1,18 @@
-# 스마트 공장 검증 장비 — 실습 시뮬레이터
+# 🏭 스마트공장 트레이너 | Smart Factory Trainer
+
+> 3D 가상 장비 실습 + 평가/수료 판정 시뮬레이터  
+> Hands-on training simulator with 3D virtual equipment
+
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen?style=flat-square)](https://metasongi.github.io/smart-factory-trainer/) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square) ![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square)
+
+🌐 **Live:** https://metasongi.github.io/smart-factory-trainer/
+
+---
 
 스마트공장 교육용 **검증 장비 실습 시뮬레이터** 웹앱입니다.
 3D 가상 장비로 설비 기동 → 컨베이어 가동 → 로봇팔 이송 → 비전 검사 → 불량 분류까지
 전 공정을 직접 조작하며 배우는 차시형 실습 콘텐츠입니다.
 
-🌐 **바로 실행:** https://metasongi.github.io/smart-factory-trainer/
 
 ## 구성
 
@@ -43,3 +51,9 @@ python3 -m http.server 8000
 | `factory3d.js` | 3D 공장 씬 + 동작 API |
 | `lessons.js` | 1차시 시나리오·퀴즈 데이터 |
 | `trainer.js` | 실습 진행·대시보드·평가 로직 |
+
+---
+
+## English Summary
+
+Hands-on training simulator with 3D virtual equipment.
